@@ -35,7 +35,7 @@ module.exports = function(grunt) {
         },
         watch: {
             stylesheets: {
-                files: ['src/css/**/*.css', 'src/less/**/*.less'],
+                files: ['src/css/**/*.css', 'src/less/**/*.less', 'src/scss/**/*.scss'],
                 tasks: ['css_dev']
             },
 
@@ -64,14 +64,21 @@ module.exports = function(grunt) {
                     'css/main.css': 'src/less/**/*.less'
                 }
             }
+        },
+        sass: {
+            dist: {
+                files: {
+                    'main_sass.css': 'src/scss/**/*.scss'
+                }
+            }
         }
     });
 
     // register tasks..
     grunt.registerTask('js_dev', ['jshint', 'concat:js']);
     grunt.registerTask('js_prod', ['js_dev', 'uglify']);
-    grunt.registerTask('css_dev', ['less:development']);
-    grunt.registerTask('css_prod', ['less:production']);
+    grunt.registerTask('css_dev', ['less:development', 'sass']);
+    grunt.registerTask('css_prod', ['less:production', 'sass']);
 
     grunt.registerTask('develop', ['js_dev', 'css_dev', 'watch']);
     grunt.registerTask('production', ['js_prod', 'css_prod']);
