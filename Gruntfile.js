@@ -13,11 +13,6 @@ module.exports = function(grunt) {
                 files: {
                     'js/a.js': ['src/js/file_01.js', 'src/js/file_02.js']
                 }
-            },
-            css: {
-                files: {
-                    'css/a.css': ['src/css/file_01.css', 'src/css/file_02.css']
-                }
             }
         },
         jshint: {
@@ -38,18 +33,9 @@ module.exports = function(grunt) {
                 }
             }
         },
-        cssmin: {
-            build: {
-                files: {
-                    'css/a.min.css': [
-                        'css/a.css'
-                    ]
-                }
-            }
-        },
         watch: {
             stylesheets: {
-                files: ['src/css/**/*.css'],
+                files: ['src/css/**/*.css', 'src/less/**/*.less'],
                 tasks: ['css_dev']
             },
 
@@ -57,14 +43,35 @@ module.exports = function(grunt) {
                 files: 'src/js/**/*.js',
                 tasks: ['js_dev']
             }
+        },
+        less: {
+            development: {
+                files: {
+                    'css/main.css': 'src/less/**/*.less'
+                }
+            },
+            production: {
+                options: {
+                    plugins: [
+                        new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
+                        new (require('less-plugin-clean-css'))()
+                    ],
+                    modifyVars: {
+                        imgPath: '"http://cdn.reserved.com/path/to/images"'
+                    }
+                },
+                files: {
+                    'css/main.css': 'src/less/**/*.less'
+                }
+            }
         }
     });
 
     // register tasks..
     grunt.registerTask('js_dev', ['jshint', 'concat:js']);
     grunt.registerTask('js_prod', ['js_dev', 'uglify']);
-    grunt.registerTask('css_dev', ['concat:css']);
-    grunt.registerTask('css_prod', ['css_dev', 'cssmin']);
+    grunt.registerTask('css_dev', ['less:development']);
+    grunt.registerTask('css_prod', ['less:production']);
 
     grunt.registerTask('develop', ['js_dev', 'css_dev', 'watch']);
     grunt.registerTask('production', ['js_prod', 'css_prod']);
