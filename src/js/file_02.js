@@ -1,1 +1,1 @@
-WScript.Echo(global.test);
+console.log(global.test);

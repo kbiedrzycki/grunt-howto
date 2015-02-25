@@ -35,7 +35,7 @@ module.exports = function(grunt) {
         },
         watch: {
             stylesheets: {
-                files: ['src/css/**/*.css', 'src/less/**/*.less', 'src/scss/**/*.scss'],
+                files: ['src/css/**/*.css', 'src/less/**/*.less'],
                 tasks: ['css_dev']
             },
 
@@ -71,15 +71,33 @@ module.exports = function(grunt) {
                     'main_sass.css': 'src/scss/**/*.scss'
                 }
             }
+        },
+        browserSync: {
+            bsFiles: {
+                src: [
+                    "css/**/*.css",
+                    "js/**/*.js",
+                    "*.html",
+                    "*.php"
+                ]
+            },
+            options: {
+                watchTask: true,
+                server: {
+                    baseDir: "./"
+                }
+            }
         }
     });
 
     // register tasks..
     grunt.registerTask('js_dev', ['jshint', 'concat:js']);
     grunt.registerTask('js_prod', ['js_dev', 'uglify']);
-    grunt.registerTask('css_dev', ['less:development', 'sass']);
-    grunt.registerTask('css_prod', ['less:production', 'sass']);
+    grunt.registerTask('css_dev', ['less:development']);
+    grunt.registerTask('css_prod', ['less:production']);
 
     grunt.registerTask('develop', ['js_dev', 'css_dev', 'watch']);
     grunt.registerTask('production', ['js_prod', 'css_prod']);
+
+    grunt.registerTask('observe', ['js_dev', 'css_dev', 'browserSync', 'watch']);
 };
