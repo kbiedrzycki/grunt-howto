@@ -13,6 +13,7 @@
     "url": "https://github.com/kbiedrzycki/grunt-howto/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.5"
+    "grunt": "~0.4.5",
+    "grunt-contrib-concat": "~0.5.1"
   }
 }

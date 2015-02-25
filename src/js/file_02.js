@@ -1,0 +1,1 @@
+WScript.Echo(global.test);
