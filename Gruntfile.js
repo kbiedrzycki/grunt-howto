@@ -6,9 +6,13 @@ module.exports = function(grunt) {
                 banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n',
                 separator: "\n"
             },
-            dist: {
+            js: {
                 files: {
-                    'js/a.js': ['src/js/file_01.js', 'src/js/file_02.js'],
+                    'js/a.js': ['src/js/file_01.js', 'src/js/file_02.js']
+                }
+            },
+            css: {
+                files: {
                     'css/a.css': ['src/css/file_01.css', 'src/css/file_02.css']
                 }
             }
@@ -30,6 +34,15 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+        cssmin: {
+            build: {
+                files: {
+                    'css/a.min.css': [
+                        'css/a.css'
+                    ]
+                }
+            }
         }
     });
 
@@ -37,7 +50,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // register tasks..
-    grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+    grunt.registerTask('js_dev', ['jshint', 'concat:js']);
+    grunt.registerTask('js_prod', ['js_dev', 'uglify']);
+    grunt.registerTask('css_dev', ['concat:css']);
+    grunt.registerTask('css_prod', ['css_dev', 'cssmin']);
 };
