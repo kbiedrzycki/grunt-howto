@@ -1,4 +1,7 @@
 module.exports = function(grunt) {
+
+    require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
@@ -46,15 +49,11 @@ module.exports = function(grunt) {
         }
     });
 
-    // load tasks..
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-
     // register tasks..
     grunt.registerTask('js_dev', ['jshint', 'concat:js']);
     grunt.registerTask('js_prod', ['js_dev', 'uglify']);
     grunt.registerTask('css_dev', ['concat:css']);
     grunt.registerTask('css_prod', ['css_dev', 'cssmin']);
+    grunt.registerTask('develop', ['js_dev', 'css_dev']);
+    grunt.registerTask('production', ['js_prod', 'css_prod']);
 };
