@@ -46,6 +46,17 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+        watch: {
+            stylesheets: {
+                files: ['src/css/**/*.css'],
+                tasks: ['css_dev']
+            },
+
+            scripts: {
+                files: 'src/js/**/*.js',
+                tasks: ['js_dev']
+            }
         }
     });
 
@@ -54,6 +65,7 @@ module.exports = function(grunt) {
     grunt.registerTask('js_prod', ['js_dev', 'uglify']);
     grunt.registerTask('css_dev', ['concat:css']);
     grunt.registerTask('css_prod', ['css_dev', 'cssmin']);
-    grunt.registerTask('develop', ['js_dev', 'css_dev']);
+
+    grunt.registerTask('develop', ['js_dev', 'css_dev', 'watch']);
     grunt.registerTask('production', ['js_prod', 'css_prod']);
 };
