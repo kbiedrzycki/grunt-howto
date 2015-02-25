@@ -18,13 +18,26 @@ module.exports = function(grunt) {
                reporter: require('jshint-stylish')
             },
             build: ['src/js/*.js']
+        },
+        uglify: {
+            options: {
+                banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
+            },
+            build: {
+                files: {
+                    'js/a.min.js': [
+                        'js/a.js'
+                    ]
+                }
+            }
         }
     });
 
     // load tasks..
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // register tasks..
-    grunt.registerTask('default', ['jshint', 'concat']);
+    grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 };
