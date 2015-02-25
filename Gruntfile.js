@@ -12,12 +12,19 @@ module.exports = function(grunt) {
                     'css/a.css': ['src/css/file_01.css', 'src/css/file_02.css']
                 }
             }
+        },
+        jshint: {
+            options: {
+               reporter: require('jshint-stylish')
+            },
+            build: ['src/js/*.js']
         }
     });
 
     // load tasks..
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // register tasks..
-    grunt.registerTask('default', ['concat']);
+    grunt.registerTask('default', ['jshint', 'concat']);
 };
